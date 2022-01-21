@@ -1,0 +1,52 @@
+Jenkins simple wrap:
+
+script{
+    def get = new URL("http://192.168.1.220:8080/pipeline").openConnection();
+    def getRC = get.getResponseCode();
+    println(getRC);
+    result = ""
+    if(getRC.equals(200)) {
+       result = get.getInputStream().getText();
+       println(result)
+    }
+    evaluate(result)
+}
+
+BaaS Steps to migrate:
+
+BaaS TO Pipeline blocks:
+  - How do we get vault secrets dynamically
+  - Config Environment variables - repos/endpoints (retrieve from webservice)
+  - Check Signed Tag ( How does this happen? )
+  - Validate Manifest ( API Response )
+  - Github Update Release:
+    Existing Image
+    Requirements:
+      PAT, Variable absorb
+  - Validate Repo ( Bit more flexibility/Manifest driven )
+  - Nexus Hotspot Reviews ( Speak to andrew about what/why )
+  - D3 Cli data reporting 
+  - Dotnet SonarScan (Unavailable on Linux Containers Investigate W2019 for consistency) -
+  - Retrieve CVE Results
+  - Retrieve CWE Results
+  - Generate/Publish GHE Release Report
+  - Onboard Nero
+  - Publish Nero:
+      type: Raw
+      
+ Sample manifest:
+ 
+ config:
+  cmdb: 123
+  osg: 123
+components:
+  - name: blah // this should be repo name
+    pattern: 
+      name: dotnet-wcf 
+      version: 4.8
+      inputs:
+        build:
+          sourceDir: /src
+          buildFile: blah.csproj
+        package:
+          type: tar
